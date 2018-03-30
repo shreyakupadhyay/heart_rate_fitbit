@@ -1,2 +1,2 @@
-# visualization-tool-net
-Visualization tool using React and D3, to manage analyse organization internet parameters
+# heart_rate_fitbit
+Creating visualization tool for heartrate data from fitbit

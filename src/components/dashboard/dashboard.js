@@ -7,7 +7,13 @@ import { fetchData } from '../../actions/dashboardActions';
 
 const styles = {
     height: '50%',
-    width: '50%'
+    width: '50%',
+    margin: '0 auto',
+}
+
+const stylesPage = {
+    width: '800px',
+    margin: '0 auto',
 }
 
 class Dashboard extends Component {
@@ -25,32 +31,26 @@ class Dashboard extends Component {
     if(loading) return <div>Loading...</div>
 
     return (
-        <VictoryChart height={400} width={400}
-        containerComponent={<VictoryVoronoiContainer style={styles}/>}
-      >
-          <VictoryGroup
-            labels={(d) => `y: ${d.y}`}
-            labelComponent={
-              <VictoryTooltip
-                style={{ fontSize: 10 }}
+      <div id="page-wrap" style={stylesPage}>
+          <VictoryChart height={400} width={400}
+          containerComponent={<VictoryVoronoiContainer style={styles}/>}
+        >
+            <VictoryGroup
+              labels={(d) => `y: ${d.y}`}
+              labelComponent={
+                <VictoryTooltip
+                  style={{ fontSize: 10 }}
+                />
+              }
+              data={data}
+            >
+              <VictoryLine/>
+              <VictoryScatter
+                size={(d, a) => {return a ? 8 : 3;}}
               />
-            }
-            data={[
-              { x: 1, y: 3 },
-              { x: 2, y: 1 },
-              { x: 3, y: 2 },
-              { x: 4, y: -2 },
-              { x: 5, y: -1 },
-              { x: 6, y: 2 },
-              { x: 7, y: 3 }
-            ]}
-          >
-            <VictoryLine/>
-            <VictoryScatter
-              size={(d, a) => {return a ? 8 : 3;}}
-            />
-          </VictoryGroup>
-       </VictoryChart>
+            </VictoryGroup>
+        </VictoryChart>
+      </div>
     );
   }
 }
