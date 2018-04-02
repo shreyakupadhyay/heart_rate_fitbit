@@ -17,11 +17,11 @@ export const fetchDataFailure = error => ({
 })
 
 
-export function fetchData(){
+export function fetchData(url){
     return dispatch => {
       dispatch(fetchDataBegin());
       
-      fetch('/data.json')
+      fetch(url)
             .then(handleErrors)
             .then(res => {
                 console.log(res)
