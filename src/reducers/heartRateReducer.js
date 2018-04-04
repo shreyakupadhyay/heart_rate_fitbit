@@ -1,8 +1,8 @@
 import {
-  FETCH_DATA_BEGIN,
-  FETCH_DATA_SUCCESS,
-  FETCH_DATA_FAILURE
-} from '../actions/dashboardActions';
+  FETCH_HEARTRATE_DATA_BEGIN,
+  FETCH_HEARTRATE_DATA_SUCCESS,
+  FETCH_HEARTRATE_DATA_FAILURE
+} from '../actions/heartRateActions';
 
 const initialState = {
     items: [],
@@ -12,21 +12,21 @@ const initialState = {
 
 export default function dashboardReducer(state=initialState, action){
     switch(action.type){
-        case FETCH_DATA_BEGIN:
+        case FETCH_HEARTRATE_DATA_BEGIN:
             return {
                 ...state,
                 loading: true,
                 error: null
             };
 
-        case FETCH_DATA_SUCCESS:
+        case FETCH_HEARTRATE_DATA_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 items: action.payload.data.map(d => Object({x: new Date(d.x), y:d.y}))
             };
 
-        case FETCH_DATA_FAILURE:
+        case FETCH_HEARTRATE_DATA_FAILURE:
             return {
                 ...state,
                 loading: false,

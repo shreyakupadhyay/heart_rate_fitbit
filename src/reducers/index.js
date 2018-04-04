@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import dashboardReducer from './dashboardReducer';
+import heartRateReducer from './heartRateReducer';
 
 const allReducers = combineReducers({
-    dashboard: dashboardReducer,
+    heartrate: heartRateReducer,
 });
 
 export default allReducers;
