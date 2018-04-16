@@ -114,10 +114,7 @@ class HeartRate extends Component {
               />
             }
           >
-          {/* <VictoryArea
-            style={{ data: { fill: "rgba(56, 190, 160, 0.4)" } }}
-            data={dataEvent}
-        /> */}
+          {this.handleEventData(eventsData, heartRateData)}
             <VictoryLine
               style={{
                 data: {stroke: "tomato"}
