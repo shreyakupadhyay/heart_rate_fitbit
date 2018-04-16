@@ -3,3 +3,4 @@
 3. Docter can even set the dates like 1 month option.
 4. When no data do not show a horizontal line instead show no line.
 5. Show time in the chart below as per the time period selected by the doctor.
+6. Create a colour function which shows a spectrum of the colour on the basis of heartrate value.

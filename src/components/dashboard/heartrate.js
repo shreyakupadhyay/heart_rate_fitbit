@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { VictoryChart, VictoryAxis, VictoryLine, VictoryZoomContainer, VictoryBrushContainer,
           VictoryBar, VictoryArea } from 'victory';
 import { connect } from 'react-redux';
-import { fetchHeartRateData } from '../../actions/heartRateActions';
+import { fetchHeartRateData, fetchEventsData} from '../../actions/heartRateActions';
 import FlatButton from 'material-ui/FlatButton';
 import DatePicker from 'material-ui/DatePicker';
-import EventsMark from './eventsMark';
 
 const styles = {
   stylePage: {
@@ -31,6 +30,7 @@ class HeartRate extends Component {
       };
       this.handleDataFilter = this.handleDataFilter.bind(this);
       this.handleMovingAverage = this.handleMovingAverage.bind(this);
+      this.handleEventData = this.handleEventData.bind(this);
     }
 
     handleZoom(domain) {
@@ -60,23 +60,39 @@ class HeartRate extends Component {
               var dict = {"y":meanX, "x": data[i].x}
               movingAverage.push(dict);
           }
-      console.log(movingAverage)
       return movingAverage
+    }
+
+    handleEventData(eventsData, data){
+      for (var i = 0; i < eventsData.length; i++)
+          {
+              var startTime = eventsData[i].startTime;
+              let endTime =  new Date(eventsData[i].startTime);
+              endTime.setMinutes(endTime.getMinutes() + eventsData[i].duration);
+              var dataEvent = data.filter((item) => item.x <= endTime && item.x >= startTime);
+              return <VictoryArea
+                    style={{ data: { fill: "rgba(56, 190, 160, 0.4)" } }}
+                    data={dataEvent}
+                    />
+          }
     }
 
     componentDidMount(){
       this.props.fetchHeartRateData('/heartrate_try.json');
+      this.props.fetchEventsData('eventsData.json');
     }
 
     render() {
 
-      const { error, loading, data } = this.props;
+      const { heartRateError,heartRateLoading, heartRateData, eventsError, eventsLoading, eventsData } = this.props;
 
-      if(error) return <div>Error { error.message }</div>
+      if(heartRateError) return <div>Error { heartRateError.message }</div>
+      else if(eventsError) return <div>Error { eventsError.message }</div>
 
-      if(loading) return <div>Loading...</div>
+      if(heartRateLoading) return <div>Loading...</div>
+      else if(eventsLoading) return <div>Loading...</div>
 
-      var dataValue = this.state.time==-1 ? this.handleMovingAverage(this.props.data) : this.handleDataFilter(this.props.data,this.state.time);
+      var dataValue = this.state.time==-1 ? this.handleMovingAverage(heartRateData) : this.handleDataFilter(heartRateData,this.state.time);
 
 
       return (
@@ -98,6 +114,10 @@ class HeartRate extends Component {
               />
             }
           >
+          {/* <VictoryArea
+            style={{ data: { fill: "rgba(56, 190, 160, 0.4)" } }}
+            data={dataEvent}
+        /> */}
             <VictoryLine
               style={{
                 data: {stroke: "tomato"}
@@ -113,14 +133,18 @@ class HeartRate extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.heartrate.items,
-  loading: state.heartrate.loading,
-  error: state.heartrate.error
+  heartRateData: state.heartrate.items,
+  heartRateLoading: state.heartrate.loading,
+  heartRateError: state.heartrate.error,
+  eventsData: state.events.items,
+  eventsError: state.events.error,
+  eventsLoading: state.events.loading
 })
 
 const matchDispatchToProps = dispatch => {
   return {
-    fetchHeartRateData: (url) => dispatch(fetchHeartRateData(url))
+    fetchHeartRateData: (url) => dispatch(fetchHeartRateData(url)),
+    fetchEventsData: (url) => dispatch(fetchEventsData(url))
   }
 }
 
