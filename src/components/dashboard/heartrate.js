@@ -47,7 +47,7 @@ class HeartRate extends Component {
       }
       else if(data.length > 0){
         let d =  new Date(data[0].x);
-        d.setMinutes(d.getMinutes() + time);
+        d.setHours(d.getHours() + time);
         return data.filter((item) => item.x <= d)
       }
     }
@@ -98,9 +98,9 @@ class HeartRate extends Component {
       return (
         <div>
           <div style={styles.styleButtons}>
-            <FlatButton label="10 Min." primary={true} onClick={() => this.setState({time: 10})}/>
-            <FlatButton label="15 Min." primary={true} onClick={() => this.setState({time: 15})}/>
-            <FlatButton label="30 Min." primary={true} onClick={() => this.setState({time: 30})}/>
+            <FlatButton label="8 Hours." primary={true} onClick={() => this.setState({time: 8})}/>
+            <FlatButton label="16 Hours" primary={true} onClick={() => this.setState({time: 16})}/>
+            <FlatButton label="1 Day" primary={true} onClick={() => this.setState({time: 24})}/>
             <FlatButton label="Moving Average" primary={true} onClick={() => this.setState({time: -1})}/>
             <FlatButton label="Default" primary={true} onClick={() => this.setState({time: 0})}/>
           </div>
@@ -114,7 +114,7 @@ class HeartRate extends Component {
               />
             }
           >
-          {this.handleEventData(eventsData, heartRateData)}
+          {this.state.time==-1 ? this.handleEventData(eventsData, dataValue): this.handleEventData(eventsData, heartRateData)}
             <VictoryLine
               style={{
                 data: {stroke: "tomato"}
