@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { VictoryChart, VictoryAxis, VictoryLine, VictoryZoomContainer, VictoryBrushContainer,
-          VictoryBar } from 'victory';
+          VictoryBar, VictoryArea } from 'victory';
 import { connect } from 'react-redux';
 import { fetchHeartRateData } from '../../actions/heartRateActions';
 import FlatButton from 'material-ui/FlatButton';
 import DatePicker from 'material-ui/DatePicker';
+import EventsMark from './eventsMark';
 
 const styles = {
   stylePage: {
@@ -12,6 +13,8 @@ const styles = {
     margin: '0 auto',
   },
   setMargin: {
+    width: '50%',
+    height: '50%',
     margin: '0 auto'
   },
   styleButtons: {
@@ -21,10 +24,13 @@ const styles = {
 }
 
 class HeartRate extends Component {
- 
     constructor() {
       super();
-      this.state = {};
+      this.state = {
+        time: 0
+      };
+      this.handleDataFilter = this.handleDataFilter.bind(this);
+      this.handleMovingAverage = this.handleMovingAverage.bind(this);
     }
 
     handleZoom(domain) {
@@ -35,14 +41,27 @@ class HeartRate extends Component {
       this.setState({zoomDomain: domain});
     }
 
-    changeTimeFormat(unix_timestamp){
-      var date = new Date(unix_timestamp);
-      var hours = date.getHours();
-      var minutes = "0" + date.getMinutes();
-      var seconds = "0" + date.getSeconds();
-      var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-      // var d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
-
+    handleDataFilter(data, time) {
+      if(time===0){
+        return data;
+      }
+      else if(data.length > 0){
+        let d =  new Date(data[0].x);
+        d.setMinutes(d.getMinutes() + time);
+        return data.filter((item) => item.x <= d)
+      }
+    }
+  
+    handleMovingAverage(data){
+      let movingAverage = []
+      for (var i = 1; i < data.length-1; i++)
+          {
+              var meanX = (data[i].y + data[i-1].y + data[i+1].y)/3.0;
+              var dict = {"y":meanX, "x": data[i].x}
+              movingAverage.push(dict);
+          }
+      console.log(movingAverage)
+      return movingAverage
     }
 
     componentDidMount(){
@@ -57,71 +76,36 @@ class HeartRate extends Component {
 
       if(loading) return <div>Loading...</div>
 
+      var dataValue = this.state.time==-1 ? this.handleMovingAverage(this.props.data) : this.handleDataFilter(this.props.data,this.state.time);
+
+
       return (
         <div>
           <div style={styles.styleButtons}>
-            <FlatButton label="1 Day" primary={true} />
-            <FlatButton label="1 Week" primary={true} />
-            <FlatButton label="1 Month" primary={true} />
+            <FlatButton label="10 Min." primary={true} onClick={() => this.setState({time: 10})}/>
+            <FlatButton label="15 Min." primary={true} onClick={() => this.setState({time: 15})}/>
+            <FlatButton label="30 Min." primary={true} onClick={() => this.setState({time: 30})}/>
+            <FlatButton label="Moving Average" primary={true} onClick={() => this.setState({time: -1})}/>
+            <FlatButton label="Default" primary={true} onClick={() => this.setState({time: 0})}/>
           </div>
-          <div style={styles.stylesPage}>
-              <VictoryChart width={600} height={350} scale={{x: "time"}}
-                containerComponent={
-                  <VictoryZoomContainer style={styles.setMargin} responsive={false}
-                    zoomDimension="x"
-                    zoomDomain={this.state.zoomDomain}
-                    onZoomDomainChange={this.handleZoom.bind(this)}
-                  />
-                }
-              >
-                <VictoryLine
-                  style={{
-                    data: {stroke: "#38BEA0"}
-                  }}
-                  // interpolation="bundle"  This smoothes the graph so this is not required. And gives incorrect graph.
-                  data={data}
-                />
+          <div style={styles.setMargin}>
+          <VictoryChart width={600} height={350} scale={{x: "time"}}
+            containerComponent={
+              <VictoryZoomContainer responsive={true}
+                zoomDimension="x"
+                zoomDomain={this.state.zoomDomain}
+                onZoomDomainChange={this.handleZoom.bind(this)}
+              />
+            }
+          >
+            <VictoryLine
+              style={{
+                data: {stroke: "tomato"}
+              }}
+              data={dataValue}
+            />
 
-                <VictoryBar
-                  barRatio={0.8}
-                  style={{
-                    data: { fill: "#c43a31" }
-                  }}
-                  data={data}
-                />
-    
-              </VictoryChart>
-    
-              <VictoryChart
-                padding={{top: 0, left: 50, right: 50, bottom: 30}}
-                width={600} height={90} scale={{x: "time"}}
-                containerComponent={
-                  <VictoryBrushContainer style={styles.setMargin} responsive={false}
-                    brushDimension="x"
-                    brushDomain={this.state.selectedDomain}
-                    onBrushDomainChange={this.handleBrush.bind(this)}
-                  />
-                }
-              >
-                <VictoryAxis
-                  tickValues={[
-                    new Date(1522013520000),
-                    new Date(1522020000000),
-                    new Date(1522033800000),
-                    new Date(1522041240000),
-                    new Date(1522079040000),
-                    new Date(1522088880000)
-                  ]}
-                  tickFormat={(x) => new Date(x).getFullYear()}
-                />
-                <VictoryLine
-                  style={{
-                    data: {stroke: "#38BEA0"}
-                  }}
-                  // interpolation="bundle"
-                  data={data}
-                />
-              </VictoryChart>
+          </VictoryChart>
           </div>
         </div>
       );
