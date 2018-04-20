@@ -1,0 +1,15 @@
+version: '3.5'
+
+services: 
+    heartrate-app-compose:
+        container_name: heartrate-app-compose
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+          - '.:/app'
+          - '/app/node_modules'
+        ports:
+          - '3000:3000'
+        environment:
+          - NODE_ENV=development
