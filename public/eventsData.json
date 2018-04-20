@@ -3,6 +3,14 @@
         "startTime": 1522027080000,
         "duration": 180,
         "eventType": "Excercise",
-        "eventName": "Sleeping"
+        "eventName": "Sleeping",
+        "color":"rgba(56, 190, 160, 0.4)"
+    },
+    {
+        "startTime": 1522038000000,
+        "duration": 180,
+        "eventType": "Excercise",
+        "eventName": "Eating",
+        "color":"rgba(135, 119, 217, 0.7)"
     }
 ]

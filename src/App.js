@@ -4,6 +4,7 @@ import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Dashboard from './components/dashboard/dashboard';
+import MiniDrawer from './components/dashboard/drawer'
 
 class App extends Component {
   render() {
@@ -12,7 +13,7 @@ class App extends Component {
         <Router>
           <Switch>
               <Route exact path='/' component={Dashboard} />
-              <Route exact path='/auth' component={Dashboard} />
+              <Route exact path='/auth' component={MiniDrawer} />
           </Switch>
         </Router>  
       </MuiThemeProvider>

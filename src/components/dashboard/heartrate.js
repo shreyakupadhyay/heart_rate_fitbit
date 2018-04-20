@@ -1,20 +1,32 @@
 import React, { Component } from 'react';
 import { VictoryChart, VictoryAxis, VictoryLine, VictoryZoomContainer, VictoryBrushContainer,
-          VictoryBar, VictoryArea } from 'victory';
+          VictoryBar, VictoryArea, VictoryTooltip, VictoryTheme } from 'victory';
 import { connect } from 'react-redux';
 import { fetchHeartRateData, fetchEventsData} from '../../actions/heartRateActions';
-import FlatButton from 'material-ui/FlatButton';
-import DatePicker from 'material-ui/DatePicker';
+import purple from 'material-ui/colors/purple';
+import lime from 'material-ui/colors/lime';
+import compose from 'recompose/compose';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import Button from 'material-ui/Button';
+
+const themeStyles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+});
+
 
 const styles = {
   stylePage: {
     width: '1000px',
     margin: '0 auto',
   },
+  color: {
+    color: '#2196f3'
+  },
   setMargin: {
-    width: '50%',
-    height: '50%',
-    margin: '0 auto'
+    marginTop: '50px',
   },
   styleButtons: {
     width: '550px',
@@ -23,14 +35,15 @@ const styles = {
 }
 
 class HeartRate extends Component {
-    constructor() {
-      super();
+    constructor(props) {
+      super(props);
       this.state = {
         time: 0
       };
       this.handleDataFilter = this.handleDataFilter.bind(this);
       this.handleMovingAverage = this.handleMovingAverage.bind(this);
       this.handleEventData = this.handleEventData.bind(this);
+      this.rainbow = this.rainbow.bind(this);
     }
 
     handleZoom(domain) {
@@ -64,17 +77,31 @@ class HeartRate extends Component {
     }
 
     handleEventData(eventsData, data){
+      const rendered = []
       for (var i = 0; i < eventsData.length; i++)
           {
               var startTime = eventsData[i].startTime;
               let endTime =  new Date(eventsData[i].startTime);
               endTime.setMinutes(endTime.getMinutes() + eventsData[i].duration);
               var dataEvent = data.filter((item) => item.x <= endTime && item.x >= startTime);
-              return <VictoryArea
-                    style={{ data: { fill: "rgba(56, 190, 160, 0.4)" } }}
-                    data={dataEvent}
-                    />
+              console.log(dataEvent)
+              var dataEventLabel = dataEvent.map((item) => Object(item, {label: eventsData[i].eventName}))
+              // var avg = dataEvent.map(item => item.y).reduce((sum, y) => sum + y) / dataEvent.length;
+              // var max = dataEvent.map(item => item.y).reduce((sum, y) =>  sum > y ? sum : y);
+              console.log(dataEventLabel)
+              rendered.push(<VictoryArea
+                    labelComponent={<VictoryTooltip/>}
+                    active={true}
+                    style={{ data: { fill:  lime['300']} }}
+                    data={dataEventLabel}
+                    />)
           }
+      return rendered
+    }
+
+    rainbow(n) {
+      n = (255-n) * 240 / 255;
+      return 'hsl(' + n + ',100%,50%)';
     }
 
     componentDidMount(){
@@ -86,6 +113,8 @@ class HeartRate extends Component {
 
       const { heartRateError,heartRateLoading, heartRateData, eventsError, eventsLoading, eventsData } = this.props;
 
+      const { classes } = this.props;
+
       if(heartRateError) return <div>Error { heartRateError.message }</div>
       else if(eventsError) return <div>Error { eventsError.message }</div>
 
@@ -94,18 +123,24 @@ class HeartRate extends Component {
 
       var dataValue = this.state.time==-1 ? this.handleMovingAverage(heartRateData) : this.handleDataFilter(heartRateData,this.state.time);
 
-
-      return (
-        <div>
-          <div style={styles.styleButtons}>
-            <FlatButton label="8 Hours." primary={true} onClick={() => this.setState({time: 8})}/>
+      {/* <div style={styles.styleButtons}> */}
+            {/* <Button color="primary" className={classes.button}>
+              Primary
+            </Button>
+            <Button color="secondary" className={classes.button}>
+              Secondary
+            </Button> */}
+            {/* <FlatButton label="8 Hours." primary={true} onClick={() => this.setState({time: 8})}/>
             <FlatButton label="16 Hours" primary={true} onClick={() => this.setState({time: 16})}/>
             <FlatButton label="1 Day" primary={true} onClick={() => this.setState({time: 24})}/>
             <FlatButton label="Moving Average" primary={true} onClick={() => this.setState({time: -1})}/>
             <FlatButton label="Default" primary={true} onClick={() => this.setState({time: 0})}/>
-          </div>
+            <FlatButton label="No Event Data" primary={true} onClick={() => this.setState({time: 0})}/> */}
+          {/* </div> */}
+
+      return (
           <div style={styles.setMargin}>
-          <VictoryChart width={600} height={350} scale={{x: "time"}}
+          <VictoryChart width="2400" height="600" scale={{x: "time"}} theme={VictoryTheme.material}
             containerComponent={
               <VictoryZoomContainer responsive={true}
                 zoomDimension="x"
@@ -117,14 +152,27 @@ class HeartRate extends Component {
           {this.state.time==-1 ? this.handleEventData(eventsData, dataValue): this.handleEventData(eventsData, heartRateData)}
             <VictoryLine
               style={{
-                data: {stroke: "tomato"}
+                data: {stroke: "tomato"},
+                strokeWidth: 0.3
               }}
               data={dataValue}
             />
+          <VictoryAxis crossAxis
+            tickCount={24}
+            style={{
+              ticks: {stroke: "grey", size: 5},
+              tickLabels: {fontSize: 18, padding: 5}
+            }}
+          />
 
+            <VictoryAxis dependentAxis
+          style={{
+            ticks: {stroke: "grey", size: 5},
+            tickLabels: {fontSize: 18, padding: 5}
+          }}
+            />
           </VictoryChart>
           </div>
-        </div>
       );
     }
 }
@@ -135,7 +183,8 @@ const mapStateToProps = state => ({
   heartRateError: state.heartrate.error,
   eventsData: state.events.items,
   eventsError: state.events.error,
-  eventsLoading: state.events.loading
+  eventsLoading: state.events.loading,
+  classes: PropTypes.object.isRequired
 })
 
 const matchDispatchToProps = dispatch => {
@@ -145,4 +194,7 @@ const matchDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(HeartRate);
+export default compose(
+        withStyles(themeStyles, {
+          name: 'HeartRate',
+      }),connect(mapStateToProps, matchDispatchToProps))(HeartRate);
