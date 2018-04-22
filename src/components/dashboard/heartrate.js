@@ -18,19 +18,11 @@ const themeStyles = theme => ({
 
 
 const styles = {
-  stylePage: {
-    width: '1000px',
-    margin: '0 auto',
-  },
   color: {
     color: '#2196f3'
   },
   setMargin: {
     marginTop: '50px',
-  },
-  styleButtons: {
-    width: '550px',
-    margin: '0 auto'
   }
 }
 
@@ -77,7 +69,7 @@ class HeartRate extends Component {
               rendered.push(<VictoryArea
                               labelComponent={<VictoryTooltip/>}
                               active={true}
-                              style={{ data: { fill:  lime['300']} }}
+                              style={{ data: { fill:  eventsData[i].color} }}
                               data={dataEventLabel}
                               />)
           }

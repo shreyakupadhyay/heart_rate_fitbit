@@ -4,13 +4,20 @@
         "duration": 180,
         "eventType": "Excercise",
         "eventName": "Sleeping",
-        "color":"rgba(56, 190, 160, 0.4)"
+        "color":"#7B1FA2"
     },
     {
         "startTime": 1522038000000,
         "duration": 180,
         "eventType": "Excercise",
         "eventName": "Eating",
-        "color":"rgba(135, 119, 217, 0.7)"
+        "color":"#FF7043"
+    },
+    {
+        "startTime": 1522013520000,
+        "duration": 100,
+        "eventType": "Excercise",
+        "eventName": "Walking",
+        "color":"#1E88E5"
     }
 ]

@@ -14,18 +14,11 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import HeartRateListItems from './Drawer/heartRateListItems';
 
-import HeartRate from './heartrate';
-import ProfileMenu from './profileIcon';
 
 // for tiles in drawer;
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import Favorite from '@material-ui/icons/Favorite';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import StarIcon from '@material-ui/icons/Star';
-import SendIcon from '@material-ui/icons/Send';
-import MailIcon from '@material-ui/icons/Mail';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ReportIcon from '@material-ui/icons/Report';
+import HeartRate from './heartrate';
+import ProfileMenu from './profileIcon';
+import EventsZone from './eventsZone';
 
 const drawerWidth = 240;
 
@@ -104,7 +97,6 @@ class MiniDrawer extends React.Component {
 
   handleDrawerItems = (timeValue) => {
     this.setState({time: timeValue})
-    console.log(this.state.time);
   }
 
   handleDrawerOpen = () => {
@@ -158,6 +150,7 @@ class MiniDrawer extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <HeartRate time={this.state.time}/>
+          <EventsZone />
         </main>
       </div>
     );
