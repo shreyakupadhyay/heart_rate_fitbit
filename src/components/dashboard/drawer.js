@@ -12,7 +12,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import HeartRateListItems from './Drawer/heartRateListItems';
 
 import HeartRate from './heartrate';
 import ProfileMenu from './profileIcon';
@@ -102,6 +102,11 @@ class MiniDrawer extends React.Component {
     };
   }
 
+  handleDrawerItems = (timeValue) => {
+    this.setState({time: timeValue})
+    console.log(this.state.time);
+  }
+
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -147,7 +152,8 @@ class MiniDrawer extends React.Component {
             </IconButton>
           </div>
           <Divider />
-            <ListItem button onClick={() =>  this.setState({time: 0}) }>
+          <HeartRateListItems handleDrawerItems={this.handleDrawerItems}/>
+            {/* <ListItem button onClick={() =>  this.setState({time: 0}) }>
               <ListItemIcon>
                 <Favorite />
               </ListItemIcon>
@@ -170,7 +176,7 @@ class MiniDrawer extends React.Component {
               <div >1 Day</div>
               </ListItemIcon>
               <ListItemText primary="Last 1 Day" />
-            </ListItem>
+            </ListItem> */}
           <Divider />
           {/* <List>{otherMailFolderListItems}</List> */}
         </Drawer>
