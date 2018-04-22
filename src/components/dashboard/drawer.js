@@ -17,6 +17,16 @@ import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 import HeartRate from './heartrate';
 import ProfileMenu from './profileIcon';
 
+// for tiles in drawer;
+import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Favorite from '@material-ui/icons/Favorite';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import StarIcon from '@material-ui/icons/Star';
+import SendIcon from '@material-ui/icons/Send';
+import MailIcon from '@material-ui/icons/Mail';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ReportIcon from '@material-ui/icons/Report';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -84,9 +94,13 @@ const styles = theme => ({
 });
 
 class MiniDrawer extends React.Component {
-  state = {
-    open: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      time: 0
+    };
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -133,12 +147,35 @@ class MiniDrawer extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          <List>{mailFolderListItems}</List>
+            <ListItem button onClick={() =>  this.setState({time: 0}) }>
+              <ListItemIcon>
+                <Favorite />
+              </ListItemIcon>
+              <ListItemText primary="Today's Rate" />
+            </ListItem>
+            <ListItem button onClick={() =>  this.setState({time: 8}) }>
+              <ListItemIcon>
+                <div>8 Hr</div>
+              </ListItemIcon>
+              <ListItemText primary="Last 8 Hours" />
+            </ListItem>
+            <ListItem button onClick={() =>  this.setState({time: 16}) }>
+              <ListItemIcon>
+                <div >16 Hr</div>
+              </ListItemIcon>
+              <ListItemText primary="Last 16 Hours" />
+            </ListItem>
+            <ListItem button onClick={() =>  this.setState({time: 24}) }>
+              <ListItemIcon>
+              <div >1 Day</div>
+              </ListItemIcon>
+              <ListItemText primary="Last 1 Day" />
+            </ListItem>
           <Divider />
-          <List>{otherMailFolderListItems}</List>
+          {/* <List>{otherMailFolderListItems}</List> */}
         </Drawer>
         <main className={classes.content}>
-          <HeartRate />
+          <HeartRate time={this.state.time}/>
         </main>
       </div>
     );

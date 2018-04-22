@@ -41,7 +41,6 @@ class HeartRate extends Component {
         time: 0
       };
       this.handleDataFilter = this.handleDataFilter.bind(this);
-      this.handleMovingAverage = this.handleMovingAverage.bind(this);
       this.handleEventData = this.handleEventData.bind(this);
       this.rainbow = this.rainbow.bind(this);
     }
@@ -65,16 +64,6 @@ class HeartRate extends Component {
       }
     }
   
-    handleMovingAverage(data){
-      let movingAverage = []
-      for (var i = 1; i < data.length-1; i++)
-          {
-              var meanX = (data[i].y + data[i-1].y + data[i+1].y)/3.0;
-              var dict = {"y":meanX, "x": data[i].x}
-              movingAverage.push(dict);
-          }
-      return movingAverage
-    }
 
     handleEventData(eventsData, data){
       const rendered = []
@@ -84,17 +73,13 @@ class HeartRate extends Component {
               let endTime =  new Date(eventsData[i].startTime);
               endTime.setMinutes(endTime.getMinutes() + eventsData[i].duration);
               var dataEvent = data.filter((item) => item.x <= endTime && item.x >= startTime);
-              console.log(dataEvent)
               var dataEventLabel = dataEvent.map((item) => Object(item, {label: eventsData[i].eventName}))
-              // var avg = dataEvent.map(item => item.y).reduce((sum, y) => sum + y) / dataEvent.length;
-              // var max = dataEvent.map(item => item.y).reduce((sum, y) =>  sum > y ? sum : y);
-              console.log(dataEventLabel)
               rendered.push(<VictoryArea
-                    labelComponent={<VictoryTooltip/>}
-                    active={true}
-                    style={{ data: { fill:  lime['300']} }}
-                    data={dataEventLabel}
-                    />)
+                              labelComponent={<VictoryTooltip/>}
+                              active={true}
+                              style={{ data: { fill:  lime['300']} }}
+                              data={dataEventLabel}
+                              />)
           }
       return rendered
     }
@@ -102,6 +87,10 @@ class HeartRate extends Component {
     rainbow(n) {
       n = (255-n) * 240 / 255;
       return 'hsl(' + n + ',100%,50%)';
+    }
+
+    componentWillReceiveProps(props) {
+      this.setState({time: props.time});
     }
 
     componentDidMount(){
@@ -121,22 +110,9 @@ class HeartRate extends Component {
       if(heartRateLoading) return <div>Loading...</div>
       else if(eventsLoading) return <div>Loading...</div>
 
-      var dataValue = this.state.time==-1 ? this.handleMovingAverage(heartRateData) : this.handleDataFilter(heartRateData,this.state.time);
-
-      {/* <div style={styles.styleButtons}> */}
-            {/* <Button color="primary" className={classes.button}>
-              Primary
-            </Button>
-            <Button color="secondary" className={classes.button}>
-              Secondary
-            </Button> */}
-            {/* <FlatButton label="8 Hours." primary={true} onClick={() => this.setState({time: 8})}/>
-            <FlatButton label="16 Hours" primary={true} onClick={() => this.setState({time: 16})}/>
-            <FlatButton label="1 Day" primary={true} onClick={() => this.setState({time: 24})}/>
-            <FlatButton label="Moving Average" primary={true} onClick={() => this.setState({time: -1})}/>
-            <FlatButton label="Default" primary={true} onClick={() => this.setState({time: 0})}/>
-            <FlatButton label="No Event Data" primary={true} onClick={() => this.setState({time: 0})}/> */}
-          {/* </div> */}
+      var dataValue = this.handleDataFilter(heartRateData,this.state.time);
+      console.log(this.props.time);
+      console.log(this.state.time);
 
       return (
           <div style={styles.setMargin}>
