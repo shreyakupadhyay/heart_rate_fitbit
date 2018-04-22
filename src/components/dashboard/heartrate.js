@@ -125,7 +125,7 @@ class HeartRate extends Component {
               />
             }
           >
-          {this.state.time==-1 ? this.handleEventData(eventsData, dataValue): this.handleEventData(eventsData, heartRateData)}
+          {this.handleEventData(eventsData, dataValue)}
             <VictoryLine
               style={{
                 data: {stroke: "tomato"},

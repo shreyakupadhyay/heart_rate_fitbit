@@ -153,30 +153,6 @@ class MiniDrawer extends React.Component {
           </div>
           <Divider />
           <HeartRateListItems handleDrawerItems={this.handleDrawerItems}/>
-            {/* <ListItem button onClick={() =>  this.setState({time: 0}) }>
-              <ListItemIcon>
-                <Favorite />
-              </ListItemIcon>
-              <ListItemText primary="Today's Rate" />
-            </ListItem>
-            <ListItem button onClick={() =>  this.setState({time: 8}) }>
-              <ListItemIcon>
-                <div>8 Hr</div>
-              </ListItemIcon>
-              <ListItemText primary="Last 8 Hours" />
-            </ListItem>
-            <ListItem button onClick={() =>  this.setState({time: 16}) }>
-              <ListItemIcon>
-                <div >16 Hr</div>
-              </ListItemIcon>
-              <ListItemText primary="Last 16 Hours" />
-            </ListItem>
-            <ListItem button onClick={() =>  this.setState({time: 24}) }>
-              <ListItemIcon>
-              <div >1 Day</div>
-              </ListItemIcon>
-              <ListItemText primary="Last 1 Day" />
-            </ListItem> */}
           <Divider />
           {/* <List>{otherMailFolderListItems}</List> */}
         </Drawer>
