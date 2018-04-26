@@ -1,32 +1,32 @@
 import {
-    FETCH_EVENTSZONE_DATA_BEGIN,
-    FETCH_EVENTSZONE_DATA_SUCCESS,
-    FETCH_EVENTSZONE_DATA_FAILURE
-  } from '../actions/eventsZoneActions';
+    FETCH_TIMEZONE_DATA_BEGIN,
+    FETCH_TIMEZONE_DATA_SUCCESS,
+    FETCH_TIMEZONE_DATA_FAILURE
+  } from '../actions/timeZoneActions';
   
-  const initialEventsZoneState = {
+  const initialtimeZoneState = {
       items: [],
       loading: false,
       error: null
   };
   
-  export function eventsZoneReducer(state=initialEventsZoneState, action){
+  export function timeZoneReducer(state=initialtimeZoneState, action){
       switch(action.type){
-          case FETCH_EVENTSZONE_DATA_BEGIN:
+          case FETCH_TIMEZONE_DATA_BEGIN:
               return {
                   ...state,
                   loading: true,
                   error: null
               };
   
-          case FETCH_EVENTSZONE_DATA_SUCCESS:
+          case FETCH_TIMEZONE_DATA_SUCCESS:
               return {
                   ...state,
                   loading: false,
                   items: action.payload.data
               };
   
-          case FETCH_EVENTSZONE_DATA_FAILURE:
+          case FETCH_TIMEZONE_DATA_FAILURE:
               return {
                   ...state,
                   loading: false,

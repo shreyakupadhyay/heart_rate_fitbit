@@ -20,6 +20,7 @@ import DayListItems from './Drawer/dayListItems';
 import HeartRate from './heartrate';
 import ProfileMenu from './profileIcon';
 import EventsZone from './eventsZone';
+// import TimeZone from './timeZone';
 
 const drawerWidth = 240;
 
@@ -152,6 +153,7 @@ class MiniDrawer extends React.Component {
         <main className={classes.content}>
           <HeartRate time={this.state.time}/>
           <EventsZone />
+          {/* <TimeZone /> */}
         </main>
       </div>
     );

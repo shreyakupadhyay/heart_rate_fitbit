@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { VictoryPie, VictoryTheme, VictoryLegend, VictoryChart, VictoryTooltip } from 'victory';
-import { fetchEventsZoneData } from '../../actions/eventsZoneActions';
 import { connect } from 'react-redux';
+import TimeZone from './timeZone';
 
 
 const styles = {
@@ -16,10 +16,6 @@ class EventsZone extends Component{
       super(props);
       this.handlePieChart = this.handlePieChart.bind(this);
     }
-
-    // componentDidMount(){
-    //     this.props.fetchEventsZoneData('eventsZone.json');
-    // }
 
     handlePieChart(data){
         var i, j;
@@ -83,6 +79,9 @@ class EventsZone extends Component{
                         data={legendColor}
                     />
                 </svg>
+                <div style={{flex: "1 100%", height:"400px"}}>
+                    <TimeZone />
+                </div>
             </div>
         )
     }
@@ -93,12 +92,5 @@ const mapStateToProps = state => ({
     eventsZoneError: state.events.error,
     eventsZoneLoading: state.events.loading,
   })
-  
-// const matchDispatchToProps = dispatch => {
-//     return {
-//         fetchEventsZoneData: (url) => dispatch(fetchEventsZoneData(url)),
-//     }
-// }
-  
-// export default connect(mapStateToProps, matchDispatchToProps)(EventsZone);
+
 export default connect(mapStateToProps)(EventsZone);

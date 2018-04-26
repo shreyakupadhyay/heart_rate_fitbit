@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import {heartRateReducer, eventsReducer} from './heartRateReducer';
-import {eventsZoneReducer} from './eventsZoneReducer';
+import {timeZoneReducer} from './timeZoneReducer';
 
 const allReducers = combineReducers({
     heartrate: heartRateReducer,
     events: eventsReducer,
-    eventsZone: eventsZoneReducer
+    timeZone: timeZoneReducer
 });
 
 export default allReducers;
