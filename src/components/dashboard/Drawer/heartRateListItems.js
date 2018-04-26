@@ -20,25 +20,25 @@ class HeartRateListItems extends Component{
                 <ListItemIcon>
                     <Favorite />
                 </ListItemIcon>
-                <ListItemText primary="Inbox" />
+                <ListItemText primary="Heart Rate" />
                 </ListItem>
                 <ListItem button onClick={() =>  {this.props.handleDrawerItems(8)} }>
                 <ListItemIcon>
                     <div>8 Hr</div>
                 </ListItemIcon>
-                <ListItemText primary="Starred" />
+                <ListItemText primary="8 Hours" />
                 </ListItem>
                 <ListItem button onClick={() =>  {this.props.handleDrawerItems(16)} }>
                 <ListItemIcon>
                     <div >16 Hr</div>
                 </ListItemIcon>
-                <ListItemText primary="Send mail" />
+                <ListItemText primary="16 Hours" />
                 </ListItem>
                 <ListItem button onClick={() =>  {this.props.handleDrawerItems(24)} }>
                 <ListItemIcon>
                 <div >1 Day</div>
                 </ListItemIcon>
-                <ListItemText primary="Drafts" />
+                <ListItemText primary="24 Hours" />
                 </ListItem>
             </div>
         )

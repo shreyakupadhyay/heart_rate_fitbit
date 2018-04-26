@@ -19,5 +19,12 @@
         "eventType": "Excercise",
         "eventName": "Walking",
         "color":"#1E88E5"
+    },
+    {
+        "startTime": 1522013520000,
+        "duration": 30,
+        "eventType": "Excercise",
+        "eventName": "Walking",
+        "color":"#1E88E5"
     }
 ]

@@ -12,8 +12,7 @@ class App extends Component {
       <MuiThemeProvider>
         <Router>
           <Switch>
-              <Route exact path='/' component={Dashboard} />
-              <Route exact path='/auth' component={MiniDrawer} />
+              <Route exact path='/' component={MiniDrawer} />
           </Switch>
         </Router>  
       </MuiThemeProvider>

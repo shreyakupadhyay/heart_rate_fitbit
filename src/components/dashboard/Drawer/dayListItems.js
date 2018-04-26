@@ -1,35 +1,37 @@
 import React, { Component } from 'react';
 import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import MailIcon from '@material-ui/icons/Mail';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ReportIcon from '@material-ui/icons/Report';
+import ArrowBack from '@material-ui/icons/ArrowBack';
+import Today from '@material-ui/icons/Today';
+import DateRange from '@material-ui/icons/DateRange';
 
 
-class OtherListItems extends Component{
+
+class DayListItems extends Component{
     render(){
         return (
             <div>
                 <ListItem button>
                 <ListItemIcon>
-                    <MailIcon />
+                    <ArrowBack />
                 </ListItemIcon>
-                <ListItemText primary="All mail" />
+                <ListItemText primary="Yesterday" />
                 </ListItem>
                 <ListItem button>
                 <ListItemIcon>
-                    <DeleteIcon />
+                    <Today />
                 </ListItemIcon>
-                <ListItemText primary="Trash" />
+                <ListItemText primary="Today" />
                 </ListItem>
                 <ListItem button>
                 <ListItemIcon>
-                    <ReportIcon />
+                    <DateRange />
                 </ListItemIcon>
-                <ListItemText primary="Spam" />
+                <ListItemText primary="Date Range" />
                 </ListItem>
             </div>
         )
     }
 }
 
-export default OtherListItems;
+export default DayListItems;

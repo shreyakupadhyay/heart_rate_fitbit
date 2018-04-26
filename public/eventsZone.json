@@ -1,0 +1,6 @@
+[
+    { "y": "Sleeing", "x":35 ,"label": "35 min" },
+    { "y": "Walking", "x":40, "label": "40 min" },
+    { "y": "Running", "x":55, "label": "55 min" },
+    { "y": "Eating", "x":65, "label": "65 min" }
+]

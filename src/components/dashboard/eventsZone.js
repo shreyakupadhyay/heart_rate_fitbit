@@ -1,58 +1,104 @@
 import React, { Component } from 'react';
-import { VictoryPie, VictoryTheme, VictoryLegend, VictoryChart } from 'victory';
+import { VictoryPie, VictoryTheme, VictoryLegend, VictoryChart, VictoryTooltip } from 'victory';
+import { fetchEventsZoneData } from '../../actions/eventsZoneActions';
+import { connect } from 'react-redux';
+
 
 const styles = {
     dim: {
         display: 'flex',
         flexFlow: 'row',
-  
-        /* Then we define how is distributed the remaining space */
     }
 }
 
 class EventsZone extends Component{
     constructor(props) {
       super(props);
+      this.handlePieChart = this.handlePieChart.bind(this);
     }
 
+    // componentDidMount(){
+    //     this.props.fetchEventsZoneData('eventsZone.json');
+    // }
+
+    handlePieChart(data){
+        var i, j;
+        var dataValue = [];
+        var legendColor = [];
+        var chartColor = [];
+        for(i=0;i<data.length;i++){
+            var check = 0;
+            for(j=0;j<dataValue.length;j++){
+                if(data[i].eventName===dataValue[j].x){
+                    dataValue[j]["y"] = dataValue[j]["y"] + data[i].duration;
+                    dataValue[j]["label"] =dataValue[j]["y"] + " min.";
+                    check = 1;
+                }
+            }
+            if(check==0){
+                var dict = {};
+                dict["y"] = data[i].duration;
+                dict["x"] = data[i].eventName;
+                dict["label"] = data[i].duration + " min.";
+                dataValue.push(dict);
+                var colorDict = {};
+                colorDict["name"] = data[i].eventName;
+                colorDict["symbol"] = {"fill": data[i].color};
+                legendColor.push(colorDict);
+                chartColor.push(data[i].color)
+            }
+        }
+        return {dataValue, legendColor, chartColor};
+    }
+
+
     render(){
+        const { eventsZoneError, eventsZoneLoading, eventsZoneData } = this.props;
+
+        if(eventsZoneError) return <div>Error { eventsZoneError.message }</div>
+
+        if(eventsZoneLoading) return <div>Loading...</div>
+
+        var {dataValue, legendColor, chartColor} = this.handlePieChart(eventsZoneData);
+
         return (
             <div style= {styles.dim}>
                 <svg  width={400} height={400} style={{flex: "1 100%"}}>
                     <VictoryPie standalone={false}
                         theme={VictoryTheme.material}
-                        sortOrder="descending"
+                        sortOrder="ascending"
                         labelRadius={70}
                         style={{
                             labels: { fontSize: 12, fill: "white"},
                         }}
                         width={400} height={400}
-                        colorScale={["#7B1FA2", "#1E88E5", "#7CB342", "#FF7043"]}
-                        data={[
-                        { y: "Sleeing", x:35 ,label: "35 min",  },
-                        { y: "Walking", x:40, label: "40 min" },
-                        { y: "Running", x:55, label: "55 min" },
-                        { y: "Eating", x:65, label: "65 min" }
-                        ]}
+                        colorScale={chartColor}
+                        data={dataValue}
                     />
                     <VictoryLegend x={400} y={50} standalone={false}
+                        title="Activities"
                         orientation="vertical"
                         gutter={20}
                         style={{ title: {fontSize: 20 }}}
-                        data={[
-                        { name: "Sleeping", symbol: { fill: "#7B1FA2"} },
-                        { name: "Walking", symbol: { fill: "#1E88E5" } },
-                        { name: "Running", symbol: { fill: "#7CB342" } },
-                        { name: "Eating", symbol: { fill: "#FF7043" } }
-                        ]}
+                        data={legendColor}
                     />
                 </svg>
-                <div style={{flex: "1 100%"}}>
-                Hello
-                </div>
             </div>
         )
     }
 }
 
-export default EventsZone;
+const mapStateToProps = state => ({
+    eventsZoneData: state.events.items,
+    eventsZoneError: state.events.error,
+    eventsZoneLoading: state.events.loading,
+  })
+  
+// const matchDispatchToProps = dispatch => {
+//     return {
+//         fetchEventsZoneData: (url) => dispatch(fetchEventsZoneData(url)),
+//     }
+// }
+  
+// export default connect(mapStateToProps, matchDispatchToProps)(EventsZone);
+export default connect(mapStateToProps)(EventsZone);

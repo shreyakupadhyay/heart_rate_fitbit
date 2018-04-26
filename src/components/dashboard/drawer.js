@@ -13,6 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import HeartRateListItems from './Drawer/heartRateListItems';
+import DayListItems from './Drawer/dayListItems';
 
 
 // for tiles in drawer;
@@ -146,7 +147,7 @@ class MiniDrawer extends React.Component {
           <Divider />
           <HeartRateListItems handleDrawerItems={this.handleDrawerItems}/>
           <Divider />
-          {/* <List>{otherMailFolderListItems}</List> */}
+          <DayListItems />
         </Drawer>
         <main className={classes.content}>
           <HeartRate time={this.state.time}/>

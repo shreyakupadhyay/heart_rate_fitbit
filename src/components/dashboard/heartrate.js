@@ -34,7 +34,6 @@ class HeartRate extends Component {
       };
       this.handleDataFilter = this.handleDataFilter.bind(this);
       this.handleEventData = this.handleEventData.bind(this);
-      this.rainbow = this.rainbow.bind(this);
     }
 
     handleZoom(domain) {
@@ -76,11 +75,6 @@ class HeartRate extends Component {
       return rendered
     }
 
-    rainbow(n) {
-      n = (255-n) * 240 / 255;
-      return 'hsl(' + n + ',100%,50%)';
-    }
-
     componentWillReceiveProps(props) {
       this.setState({time: props.time});
     }
@@ -103,8 +97,6 @@ class HeartRate extends Component {
       else if(eventsLoading) return <div>Loading...</div>
 
       var dataValue = this.handleDataFilter(heartRateData,this.state.time);
-      console.log(this.props.time);
-      console.log(this.state.time);
 
       return (
           <div style={styles.setMargin}>
