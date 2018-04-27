@@ -12,21 +12,15 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import HeartRateListItems from './Drawer/heartRateListItems';
-import DayListItems from './Drawer/dayListItems';
-
-
-// for tiles in drawer;
-import HeartRate from './heartrate';
-import ProfileMenu from './profileIcon';
-import EventsZone from './eventsZone';
-// import TimeZone from './timeZone';
+import { mailFolderListItems } from './homeTileData';
+import PatientTable from './patientTable';
 
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    height: 430,
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -69,9 +63,9 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    width: theme.spacing.unit * 8,
+    width: theme.spacing.unit * 7,
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 10,
+      width: theme.spacing.unit * 9,
     },
   },
   toolbar: {
@@ -83,23 +77,15 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.white,
-    padding: theme.spacing.unit * 0,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
   },
 });
 
 class MiniDrawer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      time: 0
-    };
-  }
-
-  handleDrawerItems = (timeValue) => {
-    this.setState({time: timeValue})
-  }
+  state = {
+    open: false,
+  };
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -128,9 +114,8 @@ class MiniDrawer extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" noWrap>
-              Gaurav Koley Data
+              Doctor Dashboard
             </Typography>
-            <ProfileMenu />
           </Toolbar>
         </AppBar>
         <Drawer
@@ -146,14 +131,11 @@ class MiniDrawer extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          <HeartRateListItems handleDrawerItems={this.handleDrawerItems}/>
-          <Divider />
-          <DayListItems />
+          <List>{mailFolderListItems}</List>
         </Drawer>
         <main className={classes.content}>
-          <HeartRate time={this.state.time}/>
-          <EventsZone />
-          {/* <TimeZone /> */}
+          <div className={classes.toolbar} />
+          <PatientTable />
         </main>
       </div>
     );

@@ -1,30 +1,37 @@
 [
     {
         "startTime": 1522027080000,
-        "duration": 180,
+        "duration": 360,
         "eventType": "Excercise",
         "eventName": "Sleeping",
         "color":"#7B1FA2"
     },
     {
-        "startTime": 1522038000000,
-        "duration": 180,
-        "eventType": "Excercise",
-        "eventName": "Eating",
-        "color":"#FF7043"
-    },
-    {
         "startTime": 1522013520000,
         "duration": 100,
         "eventType": "Excercise",
-        "eventName": "Walking",
+        "eventName": "Resting",
         "color":"#1E88E5"
     },
     {
-        "startTime": 1522013520000,
-        "duration": 30,
+        "startTime": 1522084020000,
+        "duration": 90,
         "eventType": "Excercise",
         "eventName": "Walking",
-        "color":"#1E88E5"
+        "color":"#FF7043"
+    },
+    {
+        "startTime": 1522051620000,
+        "duration": 60,
+        "eventType": "Excercise",
+        "eventName": "Eating",
+        "color":"#69F0AE"
+    },
+    {
+        "startTime": 1522078800000,
+        "duration": 30,
+        "eventType": "Excercise",
+        "eventName": "Eating",
+        "color":"#69F0AE"
     }
 ]

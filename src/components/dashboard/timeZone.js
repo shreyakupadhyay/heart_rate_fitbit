@@ -47,7 +47,7 @@ class TimeZone extends Component{
                 style = {{
                     data: {
                         // fill: "#c43a31",
-                        fill: (d) => colorScale[d.key % colorScale.length],
+                        fill: (d) => colorScale[d.key % (colorScale.length)],
                         width: 45
                     }
                 }}
