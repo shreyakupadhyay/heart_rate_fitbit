@@ -8,8 +8,12 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh '''npm install
-'''
+        sh 'echo "Build Successful"'
+      }
+    }
+    stage('Test') {
+      steps {
+        sh 'yarn test'
       }
     }
   }
